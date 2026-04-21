@@ -1,0 +1,29 @@
+{% extends "notes/base.html" %}
+
+{% block title %}All Notes – QuickNotes{% endblock %}
+
+{% block content %}
+<div class="notes-header">
+  <h2>Your Notes</h2>
+  <span class="note-count">{{ notes.count }} note{{ notes.count|pluralize }}</span>
+</div>
+
+{% if notes %}
+  <ul class="note-list">
+    {% for note in notes %}
+      <li class="note-card">
+        <div class="note-card__title">{{ note.display_title }}</div>
+        {% if note.title %}
+          <div class="note-card__preview">{{ note.content|truncatechars:140 }}</div>
+        {% endif %}
+        <div class="note-card__meta">{{ note.created_at|date:"N j, Y, g:i a" }} UTC</div>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="empty-state">
+    <p>No notes yet.</p>
+    <a href="{% url 'notes:create' %}" class="btn btn-primary">Write your first note</a>
+  </div>
+{% endif %}
+{% endblock %}
